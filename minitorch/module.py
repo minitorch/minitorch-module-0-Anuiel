@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, Optional, Sequence
+from typing import Any, Dict, Optional, Sequence, Tuple
 
 
 class Module:
@@ -41,7 +41,7 @@ class Module:
         for module in self.modules():
             module.eval()
 
-    def named_parameters(self) -> Dict[str, Parameter]:
+    def named_parameters(self) -> Sequence[Tuple[str, Parameter]]:
         """Collect all the parameters of this module and its descendents.
 
         Returns
@@ -49,12 +49,12 @@ class Module:
             The name and `Parameter` of each ancestor parameter.
 
         """
-        result = {}
+        result = []
         for name, param in self._parameters.items():
-            result[name] = param
+            result.append((name, param))
         for name, module in self._modules.items():
-            for n, param in module.named_parameters().items():
-                result[name + "." + n] = param
+            for n, param in module.named_parameters():
+                result.append((name + "." + n, param))
         return result
 
     def parameters(self) -> Sequence[Parameter]:
