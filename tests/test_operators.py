@@ -147,6 +147,7 @@ def test_distribute(a: float, b: float, c: float) -> None:
 def test_other(x: float, y: float) -> None:
     """Write a test that ensures some other property holds for your functions."""
     assert_close(log(exp(x)), x)
+    assert_close(mul(exp(x), exp(y)), exp(add(x, y)))
 
 
 # ## Task 0.3  - Higher-order functions
